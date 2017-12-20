@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    </head>
+    <body>
+            <textarea class ='col-md-6' rows="5"   id="TextArea"></textarea>
+            <button class = "btn btn-success" id="sendButton">Send</button>
+            <p>Message</p>
+            <ul class="list-group"></ul>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io('http://localhost:3000/');
+            document.getElementById('sendButton').addEventListener('click',function(ev){
+                ev.preventDefault();
+                let text = document.getElementById('TextArea').value;
+                socket.emit('message',text);
+            })
+            socket.on('new message',function(data){
+                // document.getElementById('p').innerHTML = data;
+                let li = document.createElement('li');
+                li.textContent = data;
+                document.querySelector('.list-group').appendChild(li);
+            })
+        </script>
+    </body>
+</html>
